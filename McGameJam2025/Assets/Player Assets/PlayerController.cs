@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed = 5f;
     private Rigidbody2D playerRb;
     public SpriteRenderer playerSprite;
+    private float originalPlayerSpeed;
+    private float originalPlayerGravity;
 
     // jump variables
     public float jumpForce = 5f;
@@ -19,17 +23,46 @@ public class PlayerController : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGround;
 
+    // Dash variables
+    private bool isDashing = false;
+    private bool canDash = true;
+    public float timeBeforeDashing = 0.5f;
+    public float dashSpeed = 1f;
+    public float dashingTime = 1f;
+    public float dashcoolDown = 1f;
+    public GameObject dashAfterEffectParticlesGO;
+    public ParticleSystem dashAfterEffectParticles;
+
+    private void Awake()
+    {
+        dashAfterEffectParticles.Stop();
+    }
+
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        originalPlayerSpeed = playerSpeed;
+        originalPlayerGravity = playerRb.gravityScale;
+        dashAfterEffectParticles = dashAfterEffectParticlesGO.GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDashing)
+        {
+            return;
+        }
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
         Jump();
         Move();
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !Input.GetKeyDown(KeyCode.D) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.Space))
+        {
+            isJumping = false;
+            canDash = false;
+            isDashing = true;
+            StartCoroutine(Dash());
+        }
     }
 
     public void Move()
@@ -79,6 +112,54 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = false;
+        }
+    }
+
+    public IEnumerator Dash()
+    {
+        playerRb.velocity = Vector2.zero;
+        playerRb.gravityScale = 0f;
+
+        yield return new WaitForSeconds(timeBeforeDashing);
+
+        playerRb.velocity = new Vector2((PlayerFacing() == "RIGHT" ? 1 : -1) * dashSpeed, 0f);
+
+        
+
+        if (PlayerFacing() == "RIGHT")
+        {
+            dashAfterEffectParticlesGO.transform.localScale = new Vector3(1,1);
+
+        } else if (PlayerFacing() == "LEFT")
+        {
+            dashAfterEffectParticlesGO.transform.localScale = new Vector3(-1, 1);
+            
+        }
+   
+        dashAfterEffectParticles.Play();
+
+        yield return new WaitForSeconds(dashingTime);
+        playerRb.gravityScale = originalPlayerGravity;
+        dashAfterEffectParticles.Stop();
+        isDashing = false;
+
+        yield return new WaitForSeconds(dashcoolDown);
+        canDash = true;
+    }
+
+    public String PlayerFacing()
+    {
+        bool isflipped = playerSprite.flipX;
+
+        if (isflipped)
+        {
+            // Facing left
+            return "LEFT";
+        }
+        else
+        {
+            // Facing right
+            return "RIGHT";
         }
     }
 }
