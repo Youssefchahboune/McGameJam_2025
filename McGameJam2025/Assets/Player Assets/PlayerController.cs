@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer playerSprite;
     private float originalPlayerSpeed;
     private float originalPlayerGravity;
+    public Animator animator;
 
     // jump variables
     public float jumpForce = 5f;
@@ -71,17 +72,20 @@ public class PlayerController : MonoBehaviour
         {
             playerSprite.flipX = true;
             playerRb.velocity = new Vector2(-playerSpeed, playerRb.velocity.y);
+            animator.SetBool("isRunning", true);
 
         }
         else if (Input.GetKey(KeyCode.D))
         {
             playerSprite.flipX = false;
             playerRb.velocity = new Vector2(playerSpeed, playerRb.velocity.y);
+            animator.SetBool("isRunning", true);
 
         }
         else
         {
             playerRb.velocity = new Vector2(0, playerRb.velocity.y);
+            animator.SetBool("isRunning", false);
         }
     }
 
@@ -92,6 +96,7 @@ public class PlayerController : MonoBehaviour
             isJumping = true;
             isGrounded = false;
             jumpTimeCounter = jumpTime;
+            animator.SetBool("isRunning", false);
             playerRb.velocity = Vector2.up * jumpForce;
 
         }
@@ -118,6 +123,7 @@ public class PlayerController : MonoBehaviour
     public IEnumerator Dash()
     {
         playerRb.velocity = Vector2.zero;
+        animator.SetBool("isRunning", false);
         playerRb.gravityScale = 0f;
 
         yield return new WaitForSeconds(timeBeforeDashing);

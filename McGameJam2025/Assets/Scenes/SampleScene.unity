@@ -6933,7 +6933,7 @@ Transform:
   m_GameObject: {fileID: 472150533}
   serializedVersion: 2
   m_LocalRotation: {x: -0.10806374, y: -0.0000000061361174, z: -6.669982e-10, w: 0.99414396}
-  m_LocalPosition: {x: -7.61, y: -1.9779999, z: -10}
+  m_LocalPosition: {x: -7.61, y: -1.9200001, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7747,7 +7747,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0.10806374, y: -0.000000006136117, z: -6.6699773e-10, w: 0.99414396}
-  m_LocalPosition: {x: -7.61, y: -1.9779999, z: -10}
+  m_LocalPosition: {x: -7.61, y: -1.9200001, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14048,7 +14048,7 @@ Transform:
   m_GameObject: {fileID: 1863451920}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.61, y: -2.188, z: 0}
+  m_LocalPosition: {x: -7.61, y: -2.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14072,6 +14072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 6
   playerSprite: {fileID: 1706133056}
+  animator: {fileID: 1706133055}
   jumpForce: 11
   jumpTime: 0.2
   feetPos: {fileID: 1897699417}
@@ -14144,8 +14145,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.031099737}
-  m_Size: {x: 0.5, y: 1.4425911}
+  m_Offset: {x: 0, y: -0.0021354556}
+  m_Size: {x: 0.5, y: 1.5090615}
   m_Direction: 0
 --- !u!212 &1863451925
 SpriteRenderer:
@@ -14334,7 +14335,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1897699417
 Transform:
   m_ObjectHideFlags: 0
@@ -15800,7 +15801,7 @@ Transform:
   m_GameObject: {fileID: 2145180989}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.7300005, y: -2.8633351, z: 0}
+  m_LocalPosition: {x: -8.67, y: -2.8633351, z: 0}
   m_LocalScale: {x: 0.61524355, y: 0.61524355, z: 0.61524355}
   m_ConstrainProportionsScale: 0
   m_Children: []
