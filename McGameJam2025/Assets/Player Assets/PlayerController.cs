@@ -68,18 +68,46 @@ public class PlayerController : MonoBehaviour
 
     public void Move()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         if (Input.GetKey(KeyCode.A))
         {
-            playerSprite.flipX = true;
+            if (!isDashing)
+            {
+                playerSprite.flipX = true;
+            }
+
+            if (isGrounded && !isJumping)
+            {
+            
+                animator.SetBool("isRunning", true);
+                
+
+            }
+
             playerRb.velocity = new Vector2(-playerSpeed, playerRb.velocity.y);
-            animator.SetBool("isRunning", true);
 
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            playerSprite.flipX = false;
+            if (!isDashing)
+            {
+                playerSprite.flipX = false;
+            }
+
+            if (isGrounded && !isJumping)
+            {
+
+                animator.SetBool("isRunning", true);
+
+
+            }
+            
             playerRb.velocity = new Vector2(playerSpeed, playerRb.velocity.y);
-            animator.SetBool("isRunning", true);
+            
 
         }
         else
@@ -97,6 +125,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
             jumpTimeCounter = jumpTime;
             animator.SetBool("isRunning", false);
+            animator.SetBool("isJumping", true);
             playerRb.velocity = Vector2.up * jumpForce;
 
         }
@@ -118,12 +147,18 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
         }
+
+        if (isGrounded && !isJumping)
+        {
+            animator.SetBool("isJumping", false);
+        }
     }
 
     public IEnumerator Dash()
     {
         playerRb.velocity = Vector2.zero;
         animator.SetBool("isRunning", false);
+        animator.SetBool("jumping", false);
         playerRb.gravityScale = 0f;
 
         yield return new WaitForSeconds(timeBeforeDashing);
