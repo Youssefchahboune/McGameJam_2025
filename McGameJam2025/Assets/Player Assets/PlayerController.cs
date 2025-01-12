@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
         originalPlayerSpeed = playerSpeed;
         originalPlayerGravity = playerRb.gravityScale;
         dashAfterEffectParticles = dashAfterEffectParticlesGO.GetComponent<ParticleSystem>();
+        
     }
 
     // Update is called once per frame
@@ -84,6 +85,7 @@ public class PlayerController : MonoBehaviour
             {
             
                 animator.SetBool("isRunning", true);
+                
 
             }
 
