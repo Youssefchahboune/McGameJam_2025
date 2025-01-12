@@ -238,13 +238,13 @@ public class PlayerController : MonoBehaviour
             {
                 swooshGameObject.gameObject.transform.position = swooshPos.transform.position;
                 swooshGameObject.GetComponent<SpriteRenderer>().flipX = false;
-                //swooshGameObject.GetComponent<Collider2D>().offset = new Vector2(Mathf.Abs(swooshGameObject.GetComponent<Collider2D>().offset.x), swooshGameObject.GetComponent<Collider2D>().offset.y);
+                swooshGameObject.GetComponent<Collider2D>().offset = new Vector2(Mathf.Abs(swooshGameObject.GetComponent<Collider2D>().offset.x), swooshGameObject.GetComponent<Collider2D>().offset.y);
             }
             else if (PlayerFacing() == "LEFT")
             {
                 swooshGameObject.gameObject.transform.position = swooshPos2.transform.position;
                 swooshGameObject.GetComponent<SpriteRenderer>().flipX = true;
-                //swooshGameObject.GetComponent<Collider2D>().offset = new Vector2(-Mathf.Abs(swooshGameObject.GetComponent<Collider2D>().offset.x), swooshGameObject.GetComponent<Collider2D>().offset.y);
+                swooshGameObject.GetComponent<Collider2D>().offset = new Vector2(-Mathf.Abs(swooshGameObject.GetComponent<Collider2D>().offset.x), swooshGameObject.GetComponent<Collider2D>().offset.y);
 
             }
             StartCoroutine(attackDelayLeftRight());
