@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float originalPlayerSpeed;
     private float originalPlayerGravity;
     public Animator animator;
+    private AudioSource[] audioSources;
 
     // jump variables
     public float jumpForce = 5f;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
         originalPlayerSpeed = playerSpeed;
         originalPlayerGravity = playerRb.gravityScale;
         dashAfterEffectParticles = dashAfterEffectParticlesGO.GetComponent<ParticleSystem>();
+        audioSources = GetComponents<AudioSource>();
     }
 
     // Update is called once per frame
@@ -84,7 +86,10 @@ public class PlayerController : MonoBehaviour
             {
             
                 animator.SetBool("isRunning", true);
-                
+                if (!audioSources[0].isPlaying)
+                {
+                    audioSources[0].Play();
+                }
 
             }
 
@@ -102,7 +107,10 @@ public class PlayerController : MonoBehaviour
             {
 
                 animator.SetBool("isRunning", true);
-
+                if (!audioSources[0].isPlaying)
+                {
+                    audioSources[0].Play();
+                }
 
             }
             
@@ -114,6 +122,7 @@ public class PlayerController : MonoBehaviour
         {
             playerRb.velocity = new Vector2(0, playerRb.velocity.y);
             animator.SetBool("isRunning", false);
+            audioSources[0].Stop();
         }
     }
 
@@ -150,7 +159,9 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && !isJumping)
         {
+            isJumping = false;
             animator.SetBool("isJumping", false);
+            animator.SetBool("isRunning", false);
         }
     }
 
@@ -158,7 +169,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRb.velocity = Vector2.zero;
         animator.SetBool("isRunning", false);
-        animator.SetBool("jumping", false);
+        animator.SetBool("isjumping", false);
         playerRb.gravityScale = 0f;
 
         yield return new WaitForSeconds(timeBeforeDashing);
