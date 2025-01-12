@@ -34,6 +34,20 @@ public class PlayerController : MonoBehaviour
     public GameObject dashAfterEffectParticlesGO;
     public ParticleSystem dashAfterEffectParticles;
 
+    // Attack Variables
+    public float slashCoolDown = 0.5f;
+    private bool canAttack = true;
+    public float slashHideTime = 0.2f;
+    public float playerSpeedWhileAttackingOnGround = 0f;
+    public float playerSpeedWhileAttackingInTheAir = 5f;
+    private bool isAttacking = false;
+
+    // swoosh
+    public GameObject swooshGameObject;
+    public float delayBeforeShowingSwoosh = 1f;
+    public GameObject swooshPos;
+    public GameObject swooshPos2;
+
     private void Awake()
     {
         dashAfterEffectParticles.Stop();
@@ -57,6 +71,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
         Jump();
         Move();
+        attack();
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !Input.GetKeyDown(KeyCode.D) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = false;
@@ -75,12 +90,12 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            if (!isDashing)
+            if (!isDashing && !isAttacking)
             {
                 playerSprite.flipX = true;
             }
 
-            if (isGrounded && !isJumping)
+            if (isGrounded && !isJumping && !isAttacking)
             {
             
                 animator.SetBool("isRunning", true);
@@ -93,12 +108,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            if (!isDashing)
+            if (!isDashing && !isAttacking)
             {
                 playerSprite.flipX = false;
             }
 
-            if (isGrounded && !isJumping)
+            if (isGrounded && !isJumping && !isAttacking)
             {
 
                 animator.SetBool("isRunning", true);
@@ -192,6 +207,74 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(dashcoolDown);
         canDash = true;
+    }
+
+    public void attack()
+    {
+        if (isDashing)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0) && canAttack)
+        {
+            canAttack = false;
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isJumping", false);
+            isAttacking = true;
+            isJumping = false;
+            if (isGrounded)
+            {
+                playerSpeed = playerSpeedWhileAttackingOnGround;
+            }
+            else if (!isGrounded)
+            {
+                playerSpeed = playerSpeedWhileAttackingInTheAir;
+            }
+
+            animator.SetBool("isAttacking", true);
+
+            if (PlayerFacing() == "RIGHT")
+            {
+                swooshGameObject.gameObject.transform.position = swooshPos.transform.position;
+                swooshGameObject.GetComponent<SpriteRenderer>().flipX = false;
+                //swooshGameObject.GetComponent<Collider2D>().offset = new Vector2(Mathf.Abs(swooshGameObject.GetComponent<Collider2D>().offset.x), swooshGameObject.GetComponent<Collider2D>().offset.y);
+            }
+            else if (PlayerFacing() == "LEFT")
+            {
+                swooshGameObject.gameObject.transform.position = swooshPos2.transform.position;
+                swooshGameObject.GetComponent<SpriteRenderer>().flipX = true;
+                //swooshGameObject.GetComponent<Collider2D>().offset = new Vector2(-Mathf.Abs(swooshGameObject.GetComponent<Collider2D>().offset.x), swooshGameObject.GetComponent<Collider2D>().offset.y);
+
+            }
+            StartCoroutine(attackDelayLeftRight());
+        }
+               
+        //Special Attack Throw Gear
+        /*else if ((Input.GetMouseButtonDown(1) || inputActions.Gameplay.SpecialAttack.WasPressedThisFrame()) && canAttack && hasScythe)
+        {
+            isJumping = false;
+            specialAttack_DeathBoomerang();
+        }*/
+
+
+    }
+
+    private IEnumerator attackDelayLeftRight()
+    {
+        yield return new WaitForSeconds(delayBeforeShowingSwoosh);
+        swooshGameObject.SetActive(true);
+
+        yield return new WaitForSeconds(slashHideTime);
+        swooshGameObject.SetActive(false);
+        isAttacking = false;
+        playerSpeed = originalPlayerSpeed;
+        animator.SetBool("isAttacking", false);
+
+
+        yield return new WaitForSeconds(slashCoolDown);
+        // Allow attacks again
+        canAttack = true;
     }
 
     public String PlayerFacing()
