@@ -8,7 +8,7 @@ public class TestDamage : MonoBehaviour
     public PlayerHealth playerHealth;
     public int damage = 1;
     public GameObject BossContainer;
-    static int BossHealth = 100;
+    static int BossHealth = 200;
     public GameObject BossSpriteGameObject;
 
     public Material flashMaterial;
@@ -32,6 +32,8 @@ public class TestDamage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        BossHealth = 200;
         originalMaterial = BossSpriteGameObject.GetComponent<SpriteRenderer>().material;
         originalcolor = BossSpriteGameObject.GetComponent<SpriteRenderer>().color;
 
