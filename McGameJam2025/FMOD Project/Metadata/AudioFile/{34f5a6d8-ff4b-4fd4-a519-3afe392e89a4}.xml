@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{34f5a6d8-ff4b-4fd4-a519-3afe392e89a4}">
+		<property name="assetPath">
+			<value>uni_footsteps/uni_left_footsteps/uni_footstep_left_var03.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.47999999999999998</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4c835387-0e99-46af-a7b4-49e616af95c2}</destination>
+		</relationship>
+	</object>
+</objects>

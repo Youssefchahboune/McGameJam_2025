@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{d483b423-885d-4941-a094-b52b2d279a52}">
+		<property name="assetPath">
+			<value>uni_amb_layers/uni_amb_layer_mid_lows/uni_amb_layer_mid_low05.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>30</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4c835387-0e99-46af-a7b4-49e616af95c2}</destination>
+		</relationship>
+	</object>
+</objects>

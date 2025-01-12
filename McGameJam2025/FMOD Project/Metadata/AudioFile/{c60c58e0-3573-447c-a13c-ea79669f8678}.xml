@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{c60c58e0-3573-447c-a13c-ea79669f8678}">
+		<property name="assetPath">
+			<value>uni_amb_scatters/uni_amb_scatter02/uni_amb_scatter02_var06.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>2.5</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4c835387-0e99-46af-a7b4-49e616af95c2}</destination>
+		</relationship>
+	</object>
+</objects>

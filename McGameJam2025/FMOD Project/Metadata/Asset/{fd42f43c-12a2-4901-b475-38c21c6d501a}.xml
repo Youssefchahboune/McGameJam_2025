@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EncodableAsset" id="{fd42f43c-12a2-4901-b475-38c21c6d501a}">
+		<property name="assetPath">
+			<value>uni_amb_scatters/uni_amb_scatter03/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4c835387-0e99-46af-a7b4-49e616af95c2}</destination>
+		</relationship>
+	</object>
+</objects>
