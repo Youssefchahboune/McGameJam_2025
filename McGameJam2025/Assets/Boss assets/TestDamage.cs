@@ -8,7 +8,8 @@ public class TestDamage : MonoBehaviour
     public PlayerHealth playerHealth;
     public int damage = 1;
     public GameObject BossContainer;
-    static int BossHealth = 200;
+    public int setBossHealth = 0;
+    private int BossHealth = 0;
     public GameObject BossSpriteGameObject;
 
     public Material flashMaterial;
@@ -33,7 +34,7 @@ public class TestDamage : MonoBehaviour
     void Start()
     {
 
-        BossHealth = 200;
+        BossHealth = setBossHealth;
         originalMaterial = BossSpriteGameObject.GetComponent<SpriteRenderer>().material;
         originalcolor = BossSpriteGameObject.GetComponent<SpriteRenderer>().color;
 
@@ -113,10 +114,10 @@ public class TestDamage : MonoBehaviour
         {
             
             bossDefeated = true;
+            TriggerHitStop(HitstopTime);
             deathParticleSystem.SetActive(true);
             deathParticleSystem.GetComponent<ParticleSystem>().Play();
             ShakeCamera(2.5f, 7f);
-
             StartCoroutine(bossIsDefeated());
             return;
         }
@@ -133,7 +134,7 @@ public class TestDamage : MonoBehaviour
         StartCoroutine(setEnemyOriginalMaterial());
 
         // hit stop
-        TriggerHitStop(HitstopTime);
+        // TriggerHitStop(HitstopTime);
     }
 
     private IEnumerator setEnemyOriginalMaterial()
