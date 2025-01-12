@@ -110,7 +110,7 @@ public class TestDamage : MonoBehaviour
     {
         isHit = true;
         BossHealth -= damage;
-        Debug.Log(BossHealth);
+        //Debug.Log(BossHealth);
 
         if(BossHealth < 0)
         {
