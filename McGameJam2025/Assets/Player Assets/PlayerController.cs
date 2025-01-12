@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     public GameObject dashAfterEffectParticlesGO;
     public ParticleSystem dashAfterEffectParticles;
 
+    // KnockBack Bool
+    private KnockBack knockback;
+
     private void Awake()
     {
         dashAfterEffectParticles.Stop();
@@ -45,7 +48,12 @@ public class PlayerController : MonoBehaviour
         originalPlayerSpeed = playerSpeed;
         originalPlayerGravity = playerRb.gravityScale;
         dashAfterEffectParticles = dashAfterEffectParticlesGO.GetComponent<ParticleSystem>();
+<<<<<<< Updated upstream
         
+=======
+        audioSources = GetComponents<AudioSource>();
+        knockback = GetComponent<KnockBack>();
+>>>>>>> Stashed changes
     }
 
     // Update is called once per frame
@@ -58,6 +66,15 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
         Jump();
         Move();
+
+
+        if (!knockback.IsBeingKnockBack)
+        {
+            Jump();
+            Move();
+        }
+        
+        
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !Input.GetKeyDown(KeyCode.D) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = false;
