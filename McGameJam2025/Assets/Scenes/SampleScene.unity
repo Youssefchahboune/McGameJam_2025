@@ -16573,6 +16573,7 @@ GameObject:
   - component: {fileID: 1849221389}
   - component: {fileID: 1849221390}
   - component: {fileID: 1849221392}
+  - component: {fileID: 1849221393}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -16657,6 +16658,27 @@ MonoBehaviour:
   HitstopTime: 1
   doorAnimator: {fileID: 1551919207}
   deathParticleSystem: {fileID: 1888184641}
+--- !u!95 &1849221393
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849221388}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e8654d141cecf4291adb63e5094da12b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1863451920
 GameObject:
   m_ObjectHideFlags: 0
