@@ -25,6 +25,9 @@ public class TestDamage : MonoBehaviour
 
     public float HitstopTime = 1f;
 
+    public Animator doorAnimator;
+    private bool bossDefeated = false;
+    public GameObject deathParticleSystem;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +66,14 @@ public class TestDamage : MonoBehaviour
         timer = shakeTime;
     }
 
+    public void ShakeCamera(float intencity,float time)
+    {
+        CinemachineBasicMultiChannelPerlin _cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        _cbmcp.m_AmplitudeGain = intencity;
+
+        timer = time;
+    }
+
     public void StopShake()
     {
         CinemachineBasicMultiChannelPerlin _cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
@@ -75,10 +86,18 @@ public class TestDamage : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            playerHealth.TakeDamage(damage);
+            if (!bossDefeated)
+            {
+                playerHealth.TakeDamage(damage);
+            }
+            
         } else if (collision.gameObject.tag == "slash")
         {
-            TakeDamage(5);
+            if (!bossDefeated)
+            {
+                TakeDamage(5);
+            }
+            
         }
     }
 
@@ -90,7 +109,13 @@ public class TestDamage : MonoBehaviour
 
         if(BossHealth < 0)
         {
-            Destroy(BossContainer);
+            
+            bossDefeated = true;
+            deathParticleSystem.SetActive(true);
+            deathParticleSystem.GetComponent<ParticleSystem>().Play();
+            ShakeCamera(2.5f, 7f);
+
+            StartCoroutine(bossIsDefeated());
             return;
         }
         
@@ -138,5 +163,20 @@ public class TestDamage : MonoBehaviour
         // Restore original time scale and fixed delta time
         Time.timeScale = originalTimeScale;
         Time.fixedDeltaTime = originalFixedDeltaTime;
+    }
+
+    private IEnumerator bossIsDefeated()
+    {
+        yield return new WaitForSecondsRealtime(7f);
+        // stop animation
+        deathParticleSystem.GetComponent<ParticleSystem>().Stop();
+        // destroy the boss
+        Destroy(BossSpriteGameObject);
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        
+        yield return new WaitForSecondsRealtime(3.5f);
+        //open the door
+        doorAnimator.SetBool("bossDefeated", true);
+
     }
 }
