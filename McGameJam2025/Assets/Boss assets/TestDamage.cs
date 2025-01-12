@@ -24,8 +24,6 @@ public class TestDamage : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             playerHealth.TakeDamage(damage);
-            Vector2 hitDirection = (collision.gameObject.transform.position - gameObject.transform.position).normalized;
-            playerHealth.TakeDamage(damage,hitDirection);
         }
     }
 }
