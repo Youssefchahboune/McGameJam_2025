@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private float originalPlayerSpeed;
     private float originalPlayerGravity;
     public Animator animator;
-    private AudioSource footsteps;
+    private AudioSource[] audioSources;
 
     // jump variables
     public float jumpForce = 5f;
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        footsteps = GetComponent<AudioSource>();
+        audioSources = GetComponents<AudioSource>();
         playerRb = GetComponent<Rigidbody2D>();
         originalPlayerSpeed = playerSpeed;
         originalPlayerGravity = playerRb.gravityScale;
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         attack();
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !Input.GetKeyDown(KeyCode.D) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.Space))
         {
-            footsteps.Stop();
+            audioSources[0].Stop();
             isJumping = false;
             canDash = false;
             isDashing = true;
@@ -102,9 +102,9 @@ public class PlayerController : MonoBehaviour
             {
             
                 animator.SetBool("isRunning", true);
-                if (!footsteps.isPlaying)
+                if (!audioSources[0].isPlaying)
                 {
-                    footsteps.Play();
+                    audioSources[0].Play();
                 }
 
             }
@@ -123,9 +123,9 @@ public class PlayerController : MonoBehaviour
             {
 
                 animator.SetBool("isRunning", true);
-                if (!footsteps.isPlaying)
+                if (!audioSources[0].isPlaying)
                 {
-                    footsteps.Play();
+                    audioSources[0].Play();
                 }
 
             }
@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
         {
             playerRb.velocity = new Vector2(0, playerRb.velocity.y);
             animator.SetBool("isRunning", false);
-            footsteps.Stop();
+            audioSources[0].Stop();
         }
     }
 
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
             jumpTimeCounter = jumpTime;
             animator.SetBool("isRunning", false);
             animator.SetBool("isJumping", true);
-            footsteps.Stop();
+            audioSources[0].Stop();
             playerRb.velocity = Vector2.up * jumpForce;
 
         }
@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
         {
             canAttack = false;
             animator.SetBool("isRunning", false);
-            footsteps.Stop();
+            audioSources[0].Stop();
             animator.SetBool("isJumping", false);
             isAttacking = true;
             isJumping = false;
@@ -244,6 +244,7 @@ public class PlayerController : MonoBehaviour
             }
 
             animator.SetBool("isAttacking", true);
+            audioSources[1].Play();
 
             if (PlayerFacing() == "RIGHT")
             {

@@ -30,6 +30,8 @@ public class TestDamage : MonoBehaviour
     private bool bossDefeated = false;
     public GameObject deathParticleSystem;
 
+    public AudioSource bossRoomMusic;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,10 +116,11 @@ public class TestDamage : MonoBehaviour
         {
             
             bossDefeated = true;
+            bossRoomMusic.Stop();
             TriggerHitStop(HitstopTime);
             deathParticleSystem.SetActive(true);
             deathParticleSystem.GetComponent<ParticleSystem>().Play();
-            ShakeCamera(2.5f, 7f);
+            ShakeCamera(3.5f, 7f);
             StartCoroutine(bossIsDefeated());
             return;
         }
