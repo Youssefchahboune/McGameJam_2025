@@ -42,6 +42,8 @@ public class TestDamage : MonoBehaviour
     void Start()
     {
 
+        bossDefeated = false;
+        
         BossHealth = setBossHealth;
         originalMaterial = GetComponent<SpriteRenderer>().material;
         originalcolor = GetComponent<SpriteRenderer>().color;
@@ -50,6 +52,8 @@ public class TestDamage : MonoBehaviour
         {
             StopShake();
         }
+
+
     }
 
     // Update is called once per frame

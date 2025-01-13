@@ -11,11 +11,13 @@ public class BossMoves : MonoBehaviour
     public bool bossIsAttacking = false;
     public static bool bossDead = false;
     public Transform playerTransform;
-    public 
+    public float minTimeForBeakAttack = 0;
+    public float maxTimeForBeakAttack = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        bossDead = false;
         //InvokeRepeating("beakAttackCall", 1f, 2.5f);
     }
 
@@ -53,7 +55,7 @@ public class BossMoves : MonoBehaviour
         if (!bossIsAttacking && !bossDead)
         {
             bossIsAttacking = true;
-            float randomTime = Random.Range(1f, 2f);
+            float randomTime = Random.Range(minTimeForBeakAttack, maxTimeForBeakAttack);
             beakAttackCall(randomTime);
         }
         

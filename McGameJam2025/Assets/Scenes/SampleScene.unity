@@ -17944,6 +17944,8 @@ MonoBehaviour:
   beakAttackToIdleTime: 1
   bossIsAttacking: 0
   playerTransform: {fileID: 0}
+  minTimeForBeakAttack: 0.5
+  maxTimeForBeakAttack: 1
 --- !u!1 &1863451920
 GameObject:
   m_ObjectHideFlags: 0
