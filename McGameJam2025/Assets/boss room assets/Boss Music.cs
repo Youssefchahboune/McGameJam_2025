@@ -21,6 +21,7 @@ public class BossMusic : MonoBehaviour
         {
             audioSource.clip = bossMusic;
             audioSource.Play();
+            gameObject.GetComponent<Collider2D>().enabled = false;
         }
     }
 

@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class TestDamage : MonoBehaviour
 {
-    public PlayerHealth playerHealth;
     public int damage = 1;
     public GameObject BossContainer;
     public int setBossHealth = 0;
-    private int BossHealth = 0;
-    public GameObject BossSpriteGameObject;
+    public static int BossHealth = 0;
+    //public GameObject BossSpriteGameObject;
 
     public Material flashMaterial;
     private Material originalMaterial;
@@ -27,7 +26,7 @@ public class TestDamage : MonoBehaviour
     public float HitstopTime = 1f;
 
     public Animator doorAnimator;
-    private bool bossDefeated = false;
+    public static bool bossDefeated = false;
     public GameObject deathParticleSystem;
 
     public AudioSource bossRoomMusic;
@@ -37,8 +36,8 @@ public class TestDamage : MonoBehaviour
     {
 
         BossHealth = setBossHealth;
-        originalMaterial = BossSpriteGameObject.GetComponent<SpriteRenderer>().material;
-        originalcolor = BossSpriteGameObject.GetComponent<SpriteRenderer>().color;
+        originalMaterial = GetComponent<SpriteRenderer>().material;
+        originalcolor = GetComponent<SpriteRenderer>().color;
 
         if (CinemachineVirtualCamera.isActiveAndEnabled)
         {
@@ -89,14 +88,7 @@ public class TestDamage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            if (!bossDefeated)
-            {
-                playerHealth.TakeDamage(damage);
-            }
-            
-        } else if (collision.gameObject.tag == "slash")
+        if (collision.gameObject.tag == "slash")
         {
             if (!bossDefeated)
             {
@@ -116,6 +108,7 @@ public class TestDamage : MonoBehaviour
         {
             
             bossDefeated = true;
+            BossMoves.BossIsDefeated();
             bossRoomMusic.Stop();
             TriggerHitStop(HitstopTime);
             deathParticleSystem.SetActive(true);
@@ -132,7 +125,7 @@ public class TestDamage : MonoBehaviour
             ShakeCamera();
         }
 
-        BossSpriteGameObject.GetComponent<SpriteRenderer>().material = flashMaterial;
+        GetComponent<SpriteRenderer>().material = flashMaterial;
 
         StartCoroutine(setEnemyOriginalMaterial());
 
@@ -143,8 +136,8 @@ public class TestDamage : MonoBehaviour
     private IEnumerator setEnemyOriginalMaterial()
     {
         yield return new WaitForSeconds(flashingTime);
-        BossSpriteGameObject.GetComponent<SpriteRenderer>().color = originalcolor;
-        BossSpriteGameObject.GetComponent<SpriteRenderer>().material = originalMaterial;
+        GetComponent<SpriteRenderer>().color = originalcolor;
+        GetComponent<SpriteRenderer>().material = originalMaterial;
         isHit = false;
     }
 
@@ -177,10 +170,10 @@ public class TestDamage : MonoBehaviour
         // stop animation
         deathParticleSystem.GetComponent<ParticleSystem>().Stop();
         // destroy the boss
-        Destroy(BossSpriteGameObject);
-        gameObject.GetComponent<Collider2D>().enabled = false;
-        
-        yield return new WaitForSecondsRealtime(3.5f);
+        StopShake();
+        GetComponent<SpriteRenderer>().enabled = false;
+        bossRoomMusic.Stop();
+        yield return new WaitForSecondsRealtime(1.5f);
         //open the door
         doorAnimator.SetBool("bossDefeated", true);
 

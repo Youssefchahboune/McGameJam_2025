@@ -9,6 +9,8 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 5;
 
     public SpriteRenderer playerSr;
+
+    public bool playerIsHurt = false;
     //public playerController playerController;
 
     // Start is called before the first frame update
@@ -33,5 +35,13 @@ public class PlayerHealth : MonoBehaviour
         // Reloads the currently active scene
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "beak")
+        {
+            TakeDamage(1);
+        }
     }
 }
