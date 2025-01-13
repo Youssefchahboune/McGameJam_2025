@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float originalPlayerGravity;
     public Animator animator;
     private AudioSource[] audioSources;
+    private bool isPlayerFrozen = false;
 
     // jump variables
     public float jumpForce = 5f;
@@ -65,10 +66,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDashing)
+        if (isDashing || isPlayerFrozen)
         {
             return;
         }
+        
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
         Jump();
         Move();
@@ -302,6 +304,26 @@ public class PlayerController : MonoBehaviour
             // Facing right
             return "RIGHT";
         }
+    }
+
+    public void FreezePlayer()
+    {
+        playerRb.velocity = Vector3.zero;
+        stopAllPlayerAnimations();
+        isPlayerFrozen = true;
+    }
+
+    public void unFreezePlayer()
+    {
+        isPlayerFrozen=false;
+    }
+
+    public void stopAllPlayerAnimations()
+    {
+        animator.SetBool("isJumping", false);
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isAttacking", false);
+        animator.SetBool("isDashing", false);
     }
 
 }

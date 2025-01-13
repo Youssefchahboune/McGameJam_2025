@@ -30,6 +30,13 @@ public class TestDamage : MonoBehaviour
     public GameObject deathParticleSystem;
 
     public AudioSource bossRoomMusic;
+    public AudioSource Ambiance;
+    public Animator enterDoor;
+
+    public PlayerController playerController;
+
+    public CinemachineVirtualCamera followCamera; // The player's camera
+    public CinemachineVirtualCamera bossRoomCamera; // The boss room camera
 
     // Start is called before the first frame update
     void Start()
@@ -106,11 +113,16 @@ public class TestDamage : MonoBehaviour
 
         if(BossHealth < 0)
         {
-            
+            Collider2D[] bossColiders = GetComponents<Collider2D>();
+            foreach (Collider2D col in bossColiders)
+            {
+                col.enabled = false;
+            }
             bossDefeated = true;
             BossMoves.BossIsDefeated();
             bossRoomMusic.Stop();
             TriggerHitStop(HitstopTime);
+            playerController.FreezePlayer();
             deathParticleSystem.SetActive(true);
             deathParticleSystem.GetComponent<ParticleSystem>().Play();
             ShakeCamera(3.5f, 7f);
@@ -167,15 +179,21 @@ public class TestDamage : MonoBehaviour
     private IEnumerator bossIsDefeated()
     {
         yield return new WaitForSecondsRealtime(7f);
-        // stop animation
+        // stop animations + shake + music
         deathParticleSystem.GetComponent<ParticleSystem>().Stop();
-        // destroy the boss
         StopShake();
         GetComponent<SpriteRenderer>().enabled = false;
         bossRoomMusic.Stop();
         yield return new WaitForSecondsRealtime(1.5f);
         //open the door
         doorAnimator.SetBool("bossDefeated", true);
+        enterDoor.SetBool("shutDoor", false);
+        yield return new WaitForSecondsRealtime(1f);
+        followCamera.Priority = 20;
+        bossRoomCamera.Priority = 10;
+        Ambiance.Play();
+        playerController.unFreezePlayer();
+        Destroy(BossContainer);
 
     }
 }
