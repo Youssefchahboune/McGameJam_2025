@@ -193,6 +193,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(timeBeforeDashing);
         animator.SetBool("isDashing", true);
+        audioSources[2].Play();
         playerRb.velocity = new Vector2((PlayerFacing() == "RIGHT" ? 1 : -1) * dashSpeed, 0f);
         
         

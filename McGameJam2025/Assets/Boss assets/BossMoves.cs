@@ -14,10 +14,17 @@ public class BossMoves : MonoBehaviour
     public float minTimeForBeakAttack = 0;
     public float maxTimeForBeakAttack = 0;
 
+    public Transform playerPos;
+    public SpriteRenderer bossSprite;
+    private float positiveBossXScale;
+    private float negativeBossXScale;
+
     // Start is called before the first frame update
     void Start()
     {
         bossDead = false;
+        positiveBossXScale = gameObject.transform.localScale.x;
+        negativeBossXScale = positiveBossXScale * -1f;
         //InvokeRepeating("beakAttackCall", 1f, 2.5f);
     }
 
@@ -78,6 +85,9 @@ public class BossMoves : MonoBehaviour
     
     private IEnumerator BeakAttack(float speedAnimation)
     {
+
+        lookTowardsPlayer();
+
         yield return new WaitForSeconds(speedAnimation);
         if (!bossDead)
         {
@@ -96,5 +106,19 @@ public class BossMoves : MonoBehaviour
     public static void BossIsDefeated()
     {
         bossDead = true;
+    }
+
+    public void lookTowardsPlayer()
+    {
+        if(playerPos.position.x < gameObject.transform.position.x)
+        {
+            // flip left
+            gameObject.transform.localScale = new Vector3(positiveBossXScale, gameObject.transform.localScale.y) ;
+
+        } else if (playerPos.position.x >= gameObject.transform.position.x)
+        {
+            // flip right
+            gameObject.transform.localScale = new Vector3(negativeBossXScale, gameObject.transform.localScale.y);
+        }
     }
 }
